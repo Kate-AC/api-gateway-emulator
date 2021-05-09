@@ -7,7 +7,6 @@ function requestLambda(r) {
     "httpMethod": r.method,
     "headers": getHeaders(r),
     "body": r.requestBody,
-    "cookies": getCookies(r),
     "queryStringParameters": r.args
   }
 
