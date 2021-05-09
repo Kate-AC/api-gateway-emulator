@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  api_gateway_emulator:
+    build:
+      context: .
+      dockerfile: ./docker/images/api_gateway_emulator/Dockerfile
+    networks:
+      - api_gateway_emulator
+    ports:
+      - 22280:80
+    command: bash -c "/usr/sbin/nginx -g 'daemon off;'"
+  test_html:
+    build:
+      context: .
+      dockerfile: ./docker/images/test_html/Dockerfile
+    networks:
+      - api_gateway_emulator
+    ports:
+      - 22281:80
+    volumes:
+      - ./test_html:/var/www/html:cached
+    command: bash -c "/usr/sbin/nginx -g 'daemon off;'"
+
+  base: &lambda
+    container_name: base
+    build:
+      context: .
+      dockerfile: ./docker/images/lambda/Dockerfile
+    volumes:
+      - ./functions:/var/task:cached
+    command: base.handler
+    networks:
+      - api_gateway_emulator
+    tty: true
+#  any:
+#    <<: *lambda
+#    container_name: any
+#    command: any.handler
+
+networks:
+  api_gateway_emulator:
+    external: true
+

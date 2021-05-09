@@ -1,0 +1,47 @@
+<html>
+  <body>
+    <div>
+      <button id="get">GET</button>
+      <div id="get-result"></div>
+    </div>
+    <div>
+      <button id="post">POST</button>
+      <div id="post-result"></div>
+    </div>
+  </body>
+</html>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  document.getElementById('get').addEventListener('click', () => {
+    axios.defaults.withCredentials = true;
+
+    axios
+      .get('http://localhost:22280/base')
+      .then(res => {
+        console.log(res.data);
+        document.getElementById('get-result').innerHTML = res.data;
+      })
+      .catch(res => {
+        console.log(res.message);
+        document.getElementById('get-result').innerHTML = res.message;
+      })
+  });
+
+  document.getElementById('post').addEventListener('click', () => {
+    axios.defaults.withCredentials = true;
+
+    axios
+      .post('http://localhost:22280/base', {
+        value: 9999
+      })
+      .then(res => {
+        console.log(res.data);
+        document.getElementById('post-result').innerHTML = 'OK ' + res.data.value;
+      })
+      .catch(res => {
+        console.log(res.message);
+        document.getElementById('post-result').innerHTML = res.message;
+      })
+  });
+</script>
+
