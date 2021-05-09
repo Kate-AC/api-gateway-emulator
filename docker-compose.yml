@@ -33,10 +33,10 @@ services:
     networks:
       - api_gateway_emulator
     tty: true
-#  any:
-#    <<: *lambda
-#    container_name: any
-#    command: any.handler
+  google_redirect:
+    <<: *lambda
+    container_name: google_redirect
+    command: google_redirect.handler
 
 networks:
   api_gateway_emulator:
